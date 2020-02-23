@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Actors/Pad.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Actors/Goal.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/Ball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/montserrat_extrabold.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=5]
+[ext_resource path="res://Actors/Wall.tscn" type="PackedScene" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+font_data = ExtResource( 4 )
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_vertical_guides_": [ 512.072 ]
+}
+
+[node name="Ball" parent="." instance=ExtResource( 3 )]
+position = Vector2( 512, 320 )
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="PlayerOne" parent="Players" instance=ExtResource( 1 )]
+position = Vector2( 64, 320 )
+
+[node name="PlayerTwo" parent="Players" instance=ExtResource( 1 )]
+position = Vector2( 960, 320 )
+upAction = "p2_up"
+downAction = "p2_down"
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Walls" type="Node2D" parent="Environment"]
+
+[node name="TopWall" parent="Environment/Walls" instance=ExtResource( 6 )]
+position = Vector2( 512, 16 )
+
+[node name="BottomWall" parent="Environment/Walls" instance=ExtResource( 6 )]
+position = Vector2( 512, 624 )
+
+[node name="Goals" type="Node2D" parent="Environment"]
+
+[node name="LeftGoal" parent="Environment/Goals" instance=ExtResource( 2 )]
+position = Vector2( 16, 320 )
+
+[node name="RightGoal" parent="Environment/Goals" instance=ExtResource( 2 )]
+position = Vector2( 1008, 320 )
+
+[node name="Score" type="Node2D" parent="."]
+
+[node name="P1Score" type="Label" parent="Score"]
+margin_left = 472.0
+margin_top = 50.0
+margin_right = 512.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P2Score" type="Label" parent="Score"]
+margin_left = 512.0
+margin_top = 50.0
+margin_right = 552.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="goal" from="Ball" to="." method="_on_Ball_goal"]
